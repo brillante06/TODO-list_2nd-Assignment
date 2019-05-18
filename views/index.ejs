@@ -9,9 +9,15 @@
     </style>
     <!--jQuery-->
       <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
     <!-- Bootstrap-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
     <!--DatePicker-->
     <link href='bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>
     <script src='bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' type='text/javascript'></script>
@@ -19,9 +25,9 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type='text/javascript'>
       $(document).ready(function () {
-        $('.editable-table').find('td').each(function () {
+        $('.table').find('td').each(function () {
           $(this).click(function () {
-            $('.editable-table td').not($(this)).prop('contenteditable', false);
+            $('.table td').not($(this)).prop('contenteditable', false);
             $(this).prop('contenteditable', true);
           });
           $(this).blur(function () {
@@ -48,6 +54,15 @@
            else
              return true;
          }
+      function leftDate(day){
+        var st_date = new Date().toISOString().substr(0, 10).replace('T', ' ');
+        console.log(st_date);
+       if((st_date-day)/(24*60*60*1000)==0)
+         return false;
+       else
+         return true;
+      }
+
       </script>
   </head>
   <body>
@@ -63,19 +78,27 @@
       <select name="priority">
             <option value="Important">Important</option>
             <option value="Normal">Normal</option>
-            <option value="Normal">Not Important</option>
+            <option value="Not Important">Not Important</option>
         </select>
         <button type="submit">Submit</button>
     </form>
 </div>
 <div id="showTodoList">
   <h2>todolist</h2>
-<table class="editable-table">
-  <th>Title</th>
-  <th>Content</th>
+<table class="table">
+  <thead class="black white-text">
+  <tr>
+  <th scope="col">Title</th>
+  <th scope="col">Content</th>
   <th>Deadline</th>
   <th>Priority</th>
-  <th>Edit/Delete</th>
+  <th>Edit</th>
+  <th>Delete</th>
+  <th>Complete</th>
+  <th>Deadline</th>
+  </tr>
+  </thead>
+  <tbody>
   <% todos.forEach((todos)=>{ %>
   <tr>
     <td class="todo_title"><%= todos.title %></td>
@@ -85,15 +108,18 @@
     <td><form action='/edit/<%=todos._id %>' method="POST">
         <button>Edit</button>
       </form>
-      <form action='/delete/<%=todos._id %>' method="POST">
+    </td>
+    <td> <form action='/delete/<%=todos._id %>' method="POST">
         <button>Delete</button>
       </form>
     </td>
-    <td><button name="complete"></button></td>
+    <td><button name="complete">complete</button></td>
   </tr>
-  <% })%>
+  <% }) %>
+  </tbody>
 </table>
 </div>
+
   </body>
 </html>
 <style type="text/css">
@@ -113,10 +139,10 @@
     top: 90px;
     left:150px;
   }
-    .editable-table {
-      border: solid 1px #DDEEEE;
-      border-collapse: collapse;
-      border-spacing: 0;
-      font: normal 13px Arial, sans-serif;
-    }
+    /*.editable-table {*/
+      /*border: solid 1px #DDEEEE;*/
+      /*border-collapse: collapse;*/
+      /*border-spacing: 0;*/
+      /*font: normal 13px Arial, sans-serif;*/
+    /*}*/
 </style>
