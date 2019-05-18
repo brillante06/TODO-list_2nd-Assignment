@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const Schema =mongoose.Schema;
 const Todo = require('../models/todo');
 const PORT = process.env.PORT;
+const moment=require('moment');
 
 router.use(bodyParser.urlencoded({extended:true}));
 
@@ -24,12 +25,13 @@ router.post('/write', function(req, res, next){
   var todo = new Todo({
     title : req.body.title.toString(),
     content : req.body.todoContent.toString(),
-    deadline : req.body.deadline,
+    date : req.body.date,
     priority : req.body.priority});
+  if(req.body.title==null)
+    res.end("Please Write title");
   todo.save( (err)=>{
     if(err)
       return res.status(500).send("Todo create fail");
-    res.status(200).send(todo);
   });
 });
 

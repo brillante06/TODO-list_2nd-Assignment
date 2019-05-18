@@ -8,88 +8,85 @@
       .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 11px; }
     </style>
       <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-      <link rel="stylesheet" href="/css/jquery-ui.min.css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
-      <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-      <script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
       <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
-      <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
-      <script type='text/javascript'>
-          $(function(){
-              $('.input-group date').datepicker({
-                  todayHighlight: true,
-                  autoclose: true,
-                  format: "yyyy/mm/dd",
-                  language: "kr",
-              });
-            $('#cp6').colorpicker({
-              horizontal: true
+    <script type='text/javascript'>
+          // $(function(){
+          //   $('#dateRangePicker').datepicker({
+          //       language: "kr"
+          //   });
+          // });
+          $('.editable-table').find('td').each(function() {
+            $(this).click(function() {
+              $('.editable-table td').not($(this)).prop('contenteditable', false);
+              $(this).prop('contenteditable', true);
             });
-            $('#datetimepicker1').datetimepicker();
+            $(this).blur(function() {
+              $(this).prop('contenteditable', false);
+            });
           });
-          $(document).ready(function(){
-              $("#submit").click(function () {
-                  if($("#title").val().length===0)
-                    {
-                        alert("Write the title");
-                        $("#title").focus();
-                        return false;
-                    }
-                  else
-                    console.log("12345678");
-                  if($("#todo-content").val().length===0)
-                  {
-                      alert("Write the content");
-                      $("#todo-content").focus();
-                      return false;
-                  }
-              });
-          });
+          function checkSpace(){
+            var x_content=document.forms['TodoList']['todoContent'].value;
+            var x_title=document.forms['TodoList']['todoTitle'].value;
+            if(x_content==null || x_content==""){
+              alert("Write the content");
+              return false;
+            }
+            else if(x_title==null || x_title==""){
+              alert("Write the title");
+              return false;
+            }
+            else
+              return true;
+          }
       </script>
   </head>
   <body>
 
 <div id="createTODO">
     <h2>Create Todo List</h2>
-    <form action="/write" method="POST">
-      <input type="text" name="title" placeholder="What are you going to"><br/>
+    <form action="/write" method="POST" name="TodoList" onsubmit="return checkSpace()">
+      <input type="content" name="todoTitle" placeholder="What are you going to"><br/>
       <input type="content" name="todoContent"  placeholder="Tell me about it"><br/>
     <!--<span onclick="newElement()" class="addBtn">gogo</span>-->
-      <div class="container">
-        <div class="row">
-          <div class='col-sm-3'>
-            <div class="form-group">
-              <div class='input-group date' id='datetimepicker1'>
-                <input type='text' name="deadline" class="form-control" />
-                <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button type="submit">Submit</button>
+      <div class="input-group input-append date" name="date" id="dateRangePicker"> </div>
+        <select name="priority">
+            <option value="Important">Important</option>
+            <option value="Normal">Normal</option>
+            <option value="Normal">Not Important</option>
+        </select>
+        <button type="submit">Submit</button>
     </form>
 </div>
 <div id="showTodoList">
   <h2>todolist</h2>
-  <a href="/write">Write</a><br/>
-<table>
+<table class="editable-table">
   <th>Title</th>
   <th>Content</th>
   <th>Deadline</th>
   <th>Priority</th>
+  <th>Edit/Delete</th>
   <% todos.forEach((todos)=>{ %>
   <tr>
     <td><%= todos.title %></td>
     <td><%= todos.content %></td>
-    <td><%= todos.deadline %></td>
+    <td><%= todos.date %></td>
     <td><%= todos.priority %></td>
+    <td><button type="button">Edit</button><button type="button">Delete</button></td>
   </tr>
   <% })%>
 </table>
+  <script type="text/javascript">
+    $('.editable-table').find('td').each(function() {
+      $(this).click(function() {
+        $('.editable-table td').not($(this)).prop('contenteditable', false);
+        $(this).prop('contenteditable', true);
+      });
+      $(this).blur(function() {
+        $(this).prop('contenteditable', false);
+      });
+    });
+  </script>
 </div>
   </body>
 </html>
@@ -110,4 +107,10 @@
     top: 90px;
     left:150px;
   }
+    .editable-table {
+      border: solid 1px #DDEEEE;
+      border-collapse: collapse;
+      border-spacing: 0;
+      font: normal 13px Arial, sans-serif;
+    }
 </style>
