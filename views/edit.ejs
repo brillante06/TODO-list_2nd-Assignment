@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ToDo Lists</title>
+    <style>
+        .ui-datepicker{ font-size: 12px; width: 160px; }
+        .ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 11px; }
+        .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 11px; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
+    <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $('.editable-table').find('td').each(function () {
+                $(this).click(function () {
+                    $('.editable-table td').not($(this)).prop('contenteditable', false);
+                    $(this).prop('contenteditable', true);
+                });
+                $(this).blur(function () {
+                    $(this).prop('contenteditable', false);
+                });
+            });
+            $('.editable-table')
+
+
+        });
+        function checkSpace(){
+            var x_content=document.forms['TodoList']['todoContent'].value;
+            var x_title=document.forms['TodoList']['todoTitle'].value;
+            if(x_content==null || x_content==""){
+                alert("Write the content");
+                return false;
+            }
+            else if(x_title==null || x_title==""){
+                alert("Write the title");
+                return false;
+            }
+            else
+                return true;
+        }
+    </script>
+</head>
+<body>
+
+<div id="createTODO">
+    <h2>Create Todo List</h2>
+    <form action="/write" method="POST" name="TodoList" onsubmit="return checkSpace()">
+        <input type="content" name="todoTitle" placeholder="What are you going to"><br/>
+        <input type="content" name="todoContent"  placeholder="Tell me about it"><br/>
+        <!--<span onclick="newElement()" class="addBtn">gogo</span>-->
+        <div class="input-group input-append date" name="date" id="dateRangePicker"> </div>
+        <select name="priority">
+            <option value="Important">Important</option>
+            <option value="Normal">Normal</option>
+            <option value="Normal">Not Important</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<div id="showTodoList">
+    <h2>todolist</h2>
+    <table class="editable-table">
+        <th>Title</th>
+        <th>Content</th>
+        <th>Deadline</th>
+        <th>Priority</th>
+        <th>Edit/Delete</th>
+        <% todos.forEach((todos)=>{ %>
+            <tr>
+                <td class="todo_title"><%= todos.title %></td>
+                <td class="todo_content"><%= todos.content %></td>
+                <td class="todo_date"><%= todos.date %></td>
+                <td class="todo_priority"><%= todos.priority %></td>
+                <td><form action='/edit/<%=todos._id %>' method="POST">
+                        <button>Edit</button>
+                    </form>
+                    <form action='/delete/<%=todos._id %>' method="POST">
+                        <button>Delete</button>
+                    </form>
+                </td>
+                <td><button name="complete"></button></td>
+            </tr>
+        <% })%>
+    </table>
+</div>
+</body>
+</html>
+<style type="text/css">
+    div#datePicker{
+        position:relative;
+    }
+    div#createTODO{
+        position : relative;
+        bottom:40px;
+        right:35px;
+        top:20px;
+        left:150px;
+    }
+    div#showTodoList{
+        position: relative;
+        right:35px;
+        top: 90px;
+        left:150px;
+    }
+    .editable-table {
+        border: solid 1px #DDEEEE;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font: normal 13px Arial, sans-serif;
+    }
+</style>

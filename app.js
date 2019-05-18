@@ -9,10 +9,15 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var flash = require("connect-flash");
 var passport = require('passport');
+//const setUpPassPort = require("./setuppasspot");
+
+
 mongoose.Promise = global.Promise; // mongoDB 버전 4.11 이상부터 해주어야 에러 안남
 
 const mongoDB = 'mongodb://127.0.0.1:27017/todolist';
 mongoose.connect(mongoDB,{useNewUrlParser:true});
+//setUpPassPort();
+//app.set("port",process.env.PORT || 3000);
 var db = mongoose.connection;
 db.on('error',console.error.bind(console,'MongoDB connection error:'));
 
@@ -30,7 +35,16 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use(session({
+//   secret:"TKRvOIJs=HyqrvagQ#&!f!%V]Ww/4KiVs$s,<<MX",//임의의 문자
+//   resave:true,
+//   saveUninitialized:true
+// }));
 
 app.use('/', indexRouter);
 //app.use('/user', usersRouter);

@@ -23,12 +23,10 @@ router.get('/',function(req,res) {
 /*W rite the todo list */
 router.post('/write', function(req, res, next){
   var todo = new Todo({
-    title : req.body.title.toString(),
+    title : req.body.todoTitle.toString(),
     content : req.body.todoContent.toString(),
-    date : req.body.date,
+    date : req.body.dates.toString(),
     priority : req.body.priority});
-  if(req.body.title==null)
-    res.end("Please Write title");
   todo.save( (err)=>{
     if(err)
       return res.status(500).send("Todo create fail");
@@ -36,16 +34,17 @@ router.post('/write', function(req, res, next){
 });
 
 /*Delete the todo list*/
-router.delete('/:id',function (req,res) {
+router.post('/delete/:id',function (req,res) {
   Todo.findByIdAndRemove(req.params.id,function (err,todo) {
     if(err)
-      return res.status(500).send("Todo list fail");
-    res.status(200).send("Todo : "+todo.title+" delete");
+      return res.status(500).send("Todo delete fail");
+
   });
 });
 
 /*Edit the todo list*/
-router.put('/:id',function (req,res) {
+router.post('/edit/:id',function (req,res) {
+  console.log('-2-2-2-2-2-2-2');
   Todo.findByIdAndUpdate(req.params.id,req.body,{new: true},
       function (err, todo) {
     if(err)
