@@ -54,11 +54,12 @@ router.post('/delete/:id',function (req,res) {
 
 /*Edit the todo list*/
 router.post('/edit/:id',function (req,res) {
-  console.log(req.body);
-  Todo.findByIdAndUpdate(req.params.id,req.body,{new: true},
+    console.log(req.params.id);
+    Todo.findByIdAndUpdate(req.params.id,{$set:{title:req.body.title, content: req.body.content, date:req.body.date,priority: req.body.priority}},
+        {new: true},
       function (err, todo) {
     if(err)
-      return res.status(500).send("Edit fail");
+      return res.status(500).json(err);
     res.status(200).send(todo);
       });
 });
