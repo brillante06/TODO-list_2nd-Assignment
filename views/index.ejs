@@ -111,9 +111,9 @@
         <table class="table-hover">
             <thead class="thead-dark tessie">
             <tr>
-                <th scope="col" >Title</th>
-                <th scope="col">Content</th>
-                <th scope="col">Date</th>
+                <th >Title</th>
+                <th >Content</th>
+                <th >Date</th>
                 <th>Priority</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -131,11 +131,11 @@
                     </td>
                     <td>
                         <form action='/delete/<%= todos._id %>' method="POST">
-                            <button type="button" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>
                     <td>
-                        <button type="button" onclick="complete(<%=index+2%>)">Complete</button>
+                        <button type="button" onclick="complete(<%=index%>)">Complete</button>
                     </td>
                 </tr>
             <% }) %>

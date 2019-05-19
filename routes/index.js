@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Schema =mongoose.Schema;
 const Todo = require('../models/todo');
+const showTodo=require('./show');
 const PORT = process.env.PORT;
-const moment=require('moment');
 
 router.use(bodyParser.urlencoded({extended:true}));
 
@@ -21,8 +20,7 @@ router.get('/',function(req,res) {
 });
 
 /*W rite the todo list */
-router.post('/write', function(req, res, next){
-    console.log(req.body);
+router.post('/write', function(req, res){
     const title = req.body.todoTitle.toString();
     const content = req.body.todoContent.toString();
     const date = req.body.dates.toString();
@@ -40,15 +38,16 @@ router.post('/write', function(req, res, next){
     todoInfo.save((err)=>{
       if(err)
         return res.status(500).send("Todo create fail");
-      else
-        return res.render('complete.ejs');
+      res.redirect('/');
     });
 });
 /*Delete the todo list*/
 router.post('/delete/:id',function (req,res) {
+    console.log(req.body);
   Todo.findByIdAndRemove(req.params.id,function (err,todo) {
     if(err)
       return res.status(500).send("Todo delete fail");
+    res.redirect('/');
   });
 });
 
@@ -60,7 +59,7 @@ router.post('/edit/:id',function (req,res) {
       function (err, todo) {
     if(err)
       return res.status(500).json(err);
-    res.status(200).send(todo);
+    res.redirect('/');
       });
 });
 
