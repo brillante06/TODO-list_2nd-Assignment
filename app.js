@@ -14,7 +14,7 @@ var passport = require('passport');
 
 mongoose.Promise = global.Promise; // mongoDB 버전 4.11 이상부터 해주어야 에러 안남
 
-const mongoDB = 'mongodb://localhost:27017/test?ssl=true';
+const mongoDB = 'mongodb://TodoList:k13579@ds145786.mlab.com:45786/heroku_h74qf4ml';
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 //setUpPassPort();
 //app.set("port",process.env.PORT || 3000);
