@@ -10,12 +10,11 @@ var bodyParser = require('body-parser');
 var flash = require("connect-flash");
 var passport = require('passport');
 //const setUpPassPort = require("./setuppasspot");
-
-
 mongoose.Promise = global.Promise; // mongoDB 버전 4.11 이상부터 해주어야 에러 안남
-
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 const mongoDB = 'mongodb://TodoList:k13579@ds145786.mlab.com:45786/heroku_h74qf4ml';
-
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 //setUpPassPort();
 //app.set("port",process.env.PORT || 3000);
@@ -65,5 +64,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+app.listen(process.env.PORT || 5000);
 module.exports = app;
