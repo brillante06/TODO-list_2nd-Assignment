@@ -8,11 +8,15 @@
     "ejs": "^2.6.1",
     "express": "^4.17.0",
     "http-errors": "^1.7.2",
-    "mongoose": "^5.5.9",
+    "mongodb": "^3.2.5",
+    "mongoose": "5.5.9",
     "morgan": "^1.9.1",
     "passport": "^0.4.0"
   },
   "devDependencies": {
     "bcrypt-nodejs": "0.0.3"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
