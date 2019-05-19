@@ -16,7 +16,11 @@
   "devDependencies": {
     "bcrypt-nodejs": "0.0.3"
   },
+  "engines": {
+    "node":"10.15.0",
+    "npm": "6.9.0"
+  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   }
 }
