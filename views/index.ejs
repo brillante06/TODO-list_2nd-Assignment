@@ -1,148 +1,174 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>ToDo Lists</title>
-    <style>
-      .ui-datepicker{ font-size: 12px; width: 160px; }
-      .ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 11px; }
-      .ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 11px; }
-    </style>
     <!--jQuery-->
-      <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
     <!-- Bootstrap-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <!-- Material Design Bootstrap -->
-    <link href="css/mdb.min.css" rel="stylesheet">
-    <!--DatePicker-->
-    <link href='bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>
-    <script src='bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' type='text/javascript'></script>
+    <link rel="stylesheet" href="/css/mdb.min.css">
+    <!--&lt;!&ndash;DatePicker&ndash;&gt;-->
+    <!--<link href='bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>-->
+    <!--<script src='bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' type='text/javascript'></script>-->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script type='text/javascript'>
-      $(document).ready(function () {
-        $('.table').find('td').each(function () {
-          $(this).click(function () {
-            $('.table td').not($(this)).prop('contenteditable', false);
-            $(this).prop('contenteditable', true);
-          });
-          $(this).blur(function () {
-            $(this).prop('contenteditable', false);
-          });
+        $(document).ready(function () {
+            $('.table').find('td').each(function () {
+                $(this).click(function () {
+                    $('.table td').not($(this)).prop('contenteditable', false);
+                    $(this).prop('contenteditable', true);
+                });
+                $(this).blur(function () {
+                    $(this).prop('contenteditable', false);
+                });
+            });
+            $("#datepicker").datepicker({
+                format: "yyyy-mm-dd",
+                startView: "months",
+                minViewMode: "months"
+            });
+
+            function leftDate(day) {
+                var st_date = new Date().toISOString().substr(0, 10).replace('T', ' ');
+                console.log(st_date);
+                if ((st_date - day) / (24 * 60 * 60 * 1000) == 0)
+                    return false;
+                else
+                    return true;
+            }
+
         });
-        $("#datepicker").datepicker( {
-          format: "yyyy-mm-dd",
-          startView: "months",
-          minViewMode: "months"
-        });
-      });
-      function checkSpace(){
-           var x_content=document.forms['TodoList']['todoContent'].value;
-           var x_title=document.forms['TodoList']['todoTitle'].value;
-           if(x_content==null || x_content==""){
-             alert("Write the content");
-             return false;
-           }
-           else if(x_title==null || x_title==""){
-             alert("Write the title");
-             return false;
-           }
-           else
-             return true;
-         }
-      function leftDate(day){
-        var st_date = new Date().toISOString().substr(0, 10).replace('T', ' ');
-        console.log(st_date);
-       if((st_date-day)/(24*60*60*1000)==0)
-         return false;
-       else
-         return true;
-      }
 
-      </script>
-  </head>
-  <body>
+        function checkSpace() {
+            var x_content = document.forms['TodoList']['todoContent'].value;
+            var x_title = document.forms['TodoList']['todoTitle'].value;
+            if (x_content == null || x_content == "") {
+                alert("Write the content");
+                return false;
+            } else if (x_title == null || x_title == "") {
+                alert("Write the title");
+                return false;
+            } else
+                return true;
+        }
 
-<div id="createTODO">
-    <h2>Create Todo List</h2>
-    <form action="/write" method="POST" name="TodoList" onsubmit="return checkSpace()">
-      <input type="content" name="todoTitle" placeholder="What are you going to"><br/>
-      <input type="content" name="todoContent"  placeholder="Tell me about it"><br/>
-      <div class='container' style='margin-top: 10px;'>
-        <input type='text' name="dates" class="form-control" id='datepicker' style='width: 250px;' >
-      </div>
-      <select name="priority">
-            <option value="Important">Important</option>
-            <option value="Normal">Normal</option>
-            <option value="Not Important">Not Important</option>
-        </select>
-        <button type="submit">Submit</button>
-    </form>
-</div>
-<div id="showTodoList">
-  <h2>todolist</h2>
-<table class="table">
-  <thead class="black white-text">
-  <tr>
-  <th scope="col">Title</th>
-  <th scope="col">Content</th>
-  <th>Deadline</th>
-  <th>Priority</th>
-  <th>Edit</th>
-  <th>Delete</th>
-  <th>Complete</th>
-  <th>Deadline</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% todos.forEach((todos)=>{ %>
-  <tr>
-    <td class="todo_title"><%= todos.title %></td>
-    <td class="todo_content"><%= todos.content %></td>
-    <td class="todo_date"><%= todos.date %></td>
-    <td class="todo_priority"><%= todos.priority %></td>
-    <td><form action='/edit/<%=todos._id %>' method="POST">
-        <button>Edit</button>
-      </form>
-    </td>
-    <td> <form action='/delete/<%=todos._id %>' method="POST">
-        <button>Delete</button>
-      </form>
-    </td>
-    <td><button name="complete">complete</button></td>
-  </tr>
-  <% }) %>
-  </tbody>
-</table>
-</div>
+        function editToDo(index, id) {
+            //var input = new Array();
+            var curTd = $("tr:eq(" + index + 1 + ")").children();
+            var headTd = $("tr:eq(" + 0 + ")").children();
+            let form = document.createElement('form');
+            form.setAttribute('method', 'POST');
+            form.setAttribute('action', '/edit/:' + id);
+            document.body.appendChild(form);
+            for (var i = 0; i <= 3; i++) {
+                let input = document.createElement("input");
+                input.setAttribute("type", "hidden");
+                // var tempName=headTd.eq(i).text();
+                // tempName=tempName.toLowerCase();
+                input.setAttribute("name", headTd.eq(i).text().toLowerCase());
+                var tempValue = curTd.eq(i).text();
+                tempValue = tempValue.toLowerCase();
+                input.setAttribute("value", tempValue);
+                form.appendChild(input);
+            }
 
-  </body>
+            form.submit();
+
+        }
+
+    </script>
+</head>
+<body>
+    <div id="createTODO">
+        <h2>Create Todo List</h2>
+        <form action="/write" method="POST" name="TodoList" onsubmit="return checkSpace()">
+            <input type="content" class="form-control mb-4" name="todoTitle" placeholder="What are you going to"><br/>
+            <input type="content" class="form-control mb-4" name="todoContent" placeholder="Tell me about it"><br/>
+            <div class='container'>
+                <input type='text' name="dates" class="form-control" id='datepicker' style='width: 250px;'>
+            </div>
+            <select class="browser-default custom-select" name="priority">
+                <option selected>Choose priority</option>
+                <option value="Important">Important</option>
+                <option value="Normal">Normal</option>
+                <option value="Not Important">Not Important</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="showTodoList">
+        <h2>todolist</h2>
+        <table class="table font ">
+            <thead class="black white-text">
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Priority</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Complete</th>
+                <th>Deadline</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% todos.forEach(function(todos, index){ %>
+                <tr>
+                    <td class="todo_title"><%= todos.title %></td>
+                    <td class="todo_content"><%= todos.content %></td>
+                    <td class="todo_date"><%= todos.date %></td>
+                    <td class="todo_priority"><%= todos.priority %></td>
+                    <td>
+                        <button type ="button" class="btn btn-success" onclick="editToDo('<%= index %>','<%= todos._id %>')">Edit</button>
+                    </td>
+                    <td>
+                        <form action='/delete/<%= todos._id %>' method="POST">
+                            <button type="button" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>
+            <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>
 <style type="text/css">
-    div#datePicker{
-       position:relative;
-    }
-    div#createTODO{
-     position : relative;
-      bottom:40px;
-      right:35px;
-      top:20px;
-      left:150px;
-    }
-  div#showTodoList{
-    position: relative;
-    right:35px;
-    top: 90px;
-    left:150px;
-  }
-    /*.editable-table {*/
-      /*border: solid 1px #DDEEEE;*/
-      /*border-collapse: collapse;*/
-      /*border-spacing: 0;*/
-      /*font: normal 13px Arial, sans-serif;*/
+    /*div#datePicker{*/
+    /*position:relative;*/
     /*}*/
+    div#createTODO {
+        position: relative;
+        bottom: 40px;
+        right: 35px;
+        top: 20px;
+        left: 150px;
+    }
+
+    #showTodoList {
+        position: relative;
+        right: 35px;
+        top: 90px;
+        left: 150px;
+    }
+
+    body, html {
+        background: url("https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Simple-Background-Images-53.png") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+       }
+    .table {
+        width: 300px;
+        @include responsive-font-size(27px);
+    }
 </style>

@@ -22,6 +22,7 @@ router.get('/',function(req,res) {
 
 /*W rite the todo list */
 router.post('/write', function(req, res, next){
+    console.log(req.body);
     const title = req.body.todoTitle.toString();
     const content = req.body.todoContent.toString();
     const date = req.body.dates.toString();
@@ -53,6 +54,7 @@ router.post('/delete/:id',function (req,res) {
 
 /*Edit the todo list*/
 router.post('/edit/:id',function (req,res) {
+  console.log(req.body);
   Todo.findByIdAndUpdate(req.params.id,req.body,{new: true},
       function (err, todo) {
     if(err)
