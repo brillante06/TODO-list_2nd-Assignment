@@ -14,7 +14,7 @@ var passport = require('passport');
 
 mongoose.Promise = global.Promise; // mongoDB 버전 4.11 이상부터 해주어야 에러 안남
 
-const mongoDB = 'mongodb://127.0.0.1:27017/todolist';
+const mongoDB = 'mongodb+srv://TodoList:TxfuueNO1Rmn61Pq@cluster1-v9r82.mongodb.net/test?retryWrites=true';
 mongoose.connect(mongoDB,{useNewUrlParser:true});
 //setUpPassPort();
 //app.set("port",process.env.PORT || 3000);
