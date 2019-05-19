@@ -233,7 +233,7 @@
       <workItem from="1557911465626" duration="17607000" />
       <workItem from="1557971248243" duration="15968000" />
       <workItem from="1558087784225" duration="22285000" />
-      <workItem from="1558152463147" duration="79179000" />
+      <workItem from="1558152463147" duration="79440000" />
     </task>
     <task id="LOCAL-00001" summary="Edit the table using double click">
       <created>1558146711052</created>
@@ -281,7 +281,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="159846000" />
+    <option name="totallyTimeSpent" value="160107000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="762" y="0" width="781" height="830" extended-state="0" />
