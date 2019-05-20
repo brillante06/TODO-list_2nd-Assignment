@@ -4,7 +4,6 @@
   ```
   sudo apt-get install git-core
   sudo apt-get install npm
-  sudo apt-get install curl
   ```
 ## Get clone from repository.
   ```
@@ -18,7 +17,6 @@
   sudo npm install express-session
   sudo npm install session-file-store
   sudo npm install body-parser
-  sudo npm install fs
   sudo npm install cookie-parser
   sudo npm install logger
   sudo npm install mongoose
