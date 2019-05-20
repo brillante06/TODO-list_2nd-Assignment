@@ -1,5 +1,23 @@
 # TODO-list_2nd-Assignment
-![image](https://user-images.githubusercontent.com/22672155/58015948-76ea6000-7b37-11e9-815e-0c81d1447e7d.png)
+![image](https://user-images.githubusercontent.com/22672155/58016709-57543700-7b39-11e9-8594-6310fe41ac34.png)
+# 1 .Create todo
+You can create todo with title,content,date and priority.
+
+
+![image](https://user-images.githubusercontent.com/22672155/58016723-63d88f80-7b39-11e9-8f21-0c874c4b1f95.png)
+# 2 .Show todo list
+In the bottom, you can see your todo list. It is order by priority.
+
+![image](https://user-images.githubusercontent.com/22672155/58016757-74890580-7b39-11e9-9b13-e7afda4020f2.png)
+# 3 .Edit,delete and complete
+You can double click to edit the title,content date or priority 
+If you delete the button, the todo list is deleted.
+If you click complete button, the row is turn to red.
+
+
+![image](https://user-images.githubusercontent.com/22672155/58016772-8074c780-7b39-11e9-9b3b-ea2f3709f2c9.png)
+# 4. Alert
+If todo-date has passed, the date cell is turn to blue.
 
 ## Initial setting (if not installed).
   ```
