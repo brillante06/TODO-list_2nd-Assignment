@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 //const bcrypt  = require('bcrypt-nodejs');
 
+/*Want to implement login but can't to do*/
 const SALT_FACTOR=10;
 
 const userSchema= mongoose.Schema({

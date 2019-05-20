@@ -3,14 +3,13 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Todo = require('../models/todo');
-const showTodo=require('./show');
 const PORT = process.env.PORT;
 
 router.use(bodyParser.urlencoded({extended:true}));
 
-/* Show todo list  */
+/* Show todo list sort by priority_num */
 router.get('/',function(req,res) {
-  Todo.find({}, function (err, todos) {
+  Todo.find({}).sort({"priority_num": 1}).exec(function (err, todos) {
     if (err) {
       console.log(err);
     } else {
@@ -26,7 +25,7 @@ router.post('/write', function(req, res){
     const date = req.body.dates.toString();
     const priority = req.body.priority.toString();
     let num;
-    const temp=priority;
+    const temp=priority;/**/
     if(temp=='Important')
       num=1;
     else if(temp=='Normal')
@@ -51,10 +50,22 @@ router.post('/delete/:id',function (req,res) {
   });
 });
 
-/*Edit the todo list*/
+/*Edit the todo list, if priority is update,priority_num is also updated*/
 router.post('/edit/:id',function (req,res) {
-    console.log(req.params.id);
-    Todo.findByIdAndUpdate(req.params.id,{$set:{title:req.body.title, content: req.body.content, date:req.body.date,priority: req.body.priority}},
+    const title = req.body.todoTitle.toString();
+    const content = req.body.todoContent.toString();
+    const date = req.body.dates.toString();
+    const priority = req.body.priority.toString();
+    let num;
+    const temp=priority;/**/
+    if(temp=='Important')
+        num=1;
+    else if(temp=='Normal')
+        num=2;
+    else if(temp=='Not Important')
+        num=3;
+    const priority_num=num;
+    Todo.findByIdAndUpdate(req.params.id,{$set:{title:title, content: content, date:date,priority: priority, priority_num:priority_num}},
         {new: true},
       function (err, todo) {
     if(err)
